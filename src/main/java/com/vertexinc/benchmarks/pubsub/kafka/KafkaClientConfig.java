@@ -1,13 +1,13 @@
-package com.vertexinc.benchmarks.pubsub.redpanda;
+package com.vertexinc.benchmarks.pubsub.kafka;
 
 import java.util.Properties;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-public class ClientConfig {
+public class KafkaClientConfig {
     private static Properties baseConfig() {
         Properties props = new Properties();
-        //props.put("bootstrap.servers", System.getenv("REDPANDA_BROKERS"));
+        //props.put("bootstrap.servers", System.getenv("KAFKA_BROKERS"));
         props.put("bootstrap.servers", "172.21.192.1:9092");
         String schemaRegistryUrl = System.getenv("SCHEMA_REGISTRY_URL");
         props.put("schema.registry.url",
@@ -17,8 +17,8 @@ public class ClientConfig {
         StringBuilder jaasConfig = new StringBuilder();
         jaasConfig.append("org.apache.kafka.common.security.scram.ScramLoginModule ");
         jaasConfig.append("required ");
-        jaasConfig.append(String.format("username='%s' ", System.getenv("REDPANDA_USERNAME")));
-        jaasConfig.append(String.format("password='%s';", System.getenv("REDPANDA_PASSWORD")));
+        jaasConfig.append(String.format("username='%s' ", System.getenv("KAFKA_USERNAME")));
+        jaasConfig.append(String.format("password='%s';", System.getenv("KAFKA_PASSWORD")));
 
         props.put("security.protocol", "SASL_SSL");
         props.put("sasl.mechanism", "SCRAM-SHA-256");
@@ -26,9 +26,9 @@ public class ClientConfig {
         
         // TLS
         // props.put("ssl.truststore.location", "");
-        // props.put("ssl.truststore.password", System.getenv("REDPANDA_TRUSTSTORE_PASSWORD"));
+        // props.put("ssl.truststore.password", System.getenv("KAFKA_TRUSTSTORE_PASSWORD"));
         // props.put("ssl.keystore.location", "");
-        // props.put("ssl.keystore.password", System.getenv("REDPANDA_KEYSTORE_PASSWORD"));
+        // props.put("ssl.keystore.password", System.getenv("KAFKA_KEYSTORE_PASSWORD"));
 
         // props.put("schema.registry.ssl.truststore.location", "");
         // props.put("schema.registry.ssl.truststore.password", System.getenv("SCHEMA_REGISTRY_TRUSTSTORE_PASSWORD"));

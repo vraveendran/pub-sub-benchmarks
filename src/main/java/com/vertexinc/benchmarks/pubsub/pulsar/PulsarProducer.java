@@ -1,4 +1,4 @@
-package com.vertexinc.benchmarks.pubsub.redpanda;
+package com.vertexinc.benchmarks.pubsub.pulsar;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -14,9 +14,9 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.errors.TopicExistsException;
 
-public class RedPandaProducer {
+public class PulsarProducer {
     /**
-     * Creates a new topic in Redpanda
+     * Creates a new topic in Pulsar
      * @param topic
      * @param config
      */
@@ -34,7 +34,7 @@ public class RedPandaProducer {
     }
 
     public static void main(final String[] args) throws IOException {
-        Properties props = RedPandaClientConfig.producerConfig();
+        Properties props = PulsarClientConfig.producerConfig();
         System.out.print(props.toString());
 
         createTopic("test", props);

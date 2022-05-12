@@ -1,4 +1,4 @@
-package com.vertexinc.benchmarks.pubsub.redpanda;
+package com.vertexinc.benchmarks.pubsub.kafka;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -7,9 +7,9 @@ import java.util.Properties;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 
-public class RedPandaConsumer {
+public class KafkaConsumer1 {
     public static void main(String[] args) {
-        Properties props = RedPandaClientConfig.consumerConfig();
+        Properties props = KafkaClientConfig.consumerConfig();
         KafkaConsumer<Object, Object> consumer = new KafkaConsumer<Object, Object>(props);
         consumer.subscribe(Collections.singletonList("test"));
         consumer.seekToBeginning(consumer.assignment());
