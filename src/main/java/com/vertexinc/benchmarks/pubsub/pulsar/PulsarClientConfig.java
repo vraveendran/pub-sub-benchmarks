@@ -8,7 +8,7 @@ public class PulsarClientConfig {
     private static Properties baseConfig() {
         Properties props = new Properties();
         //props.put("bootstrap.servers", System.getenv("PULSAR_BROKERS"));
-        props.put("bootstrap.servers", "172.21.192.1:9092");
+        props.put("bootstrap.servers", "pulsar://localhost:6650");
         String schemaRegistryUrl = System.getenv("SCHEMA_REGISTRY_URL");
         props.put("schema.registry.url",
             schemaRegistryUrl != null ? schemaRegistryUrl : "");
