@@ -13,6 +13,8 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.errors.TopicExistsException;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 
 public class RedPandaProducer {
     /**
@@ -21,7 +23,8 @@ public class RedPandaProducer {
      * @param config
      */
     public static void createTopic(final String topic, final Properties config) {
-        final NewTopic newTopic = new NewTopic(topic, Optional.empty(), Optional.empty());
+        
+    	final NewTopic newTopic = new NewTopic(topic, Optional.empty(), Optional.empty());
 
         try (final AdminClient adminClient = AdminClient.create(config)) {
             adminClient.createTopics(Collections.singletonList(newTopic)).all().get();
@@ -34,15 +37,33 @@ public class RedPandaProducer {
     }
 
     public static void main(final String[] args) throws IOException {
-        Properties props = RedPandaClientConfig.producerConfig();
-        System.out.print(props.toString());
+        Properties props = new Properties(); //RedPandaClientConfig.producerConfig();
+        props.put("bootstrap.servers", "localhost:9092");
+        
+        //props.put("producer.security.protocol","SSL");
+        //props.put("producer.ssl.truststore.location", "/tmp/kafka.client.truststore.jks");
 
-        createTopic("test", props);
+        //props.put("consumer.security.protocol","SSL");
+        //props.put("consumer.ssl.truststore.location","/tmp/kafka.client.truststore.jks");
+        
+        props.put("KAFKA_ADVERTISED_LISTENERS", "PLAINTEXT_HOST://localhost:9092");
+        props.put("key.serializer", StringSerializer.class.getName());
+        props.put("value.serializer", StringSerializer.class.getName());
+        
+        props.put("key.deserializer", StringDeserializer.class.getName());
+        props.put("value.deserializer", StringDeserializer.class.getName());
+        props.put("group.id", "firefox");
+        props.put("auto.offset.reset", "earliest");
+        		
+        //System.out.print(props.toString());
+
+        createTopic("redpanda-topic", props);
+        
         KafkaProducer<String, String> producer = new KafkaProducer<String, String>(props);
         
         for (Long i = 0L; i < 10; i++) {
             ProducerRecord<String, String> record = new ProducerRecord<String, String>(
-                "test", String.format("key-%d", i), String.format("value-%d", i));
+                "redpanda-topic", String.format("key-%d", i), String.format("value-%d", i));
             producer.send(record, new Callback() {
                 @Override
                 public void onCompletion(RecordMetadata metadata, Exception exception) {
