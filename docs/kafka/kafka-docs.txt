@@ -1,0 +1,9 @@
+docker-compose -f kafka-docker-compose.yml up -d
+
+docker ps
+
+docker exec -it kafka /bin/sh
+
+docker-compose -f kafka-docker-compose.yml down
+
+docker ps
