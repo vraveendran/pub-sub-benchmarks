@@ -1,0 +1,9 @@
+docker run --pull=always --name=redpanda-1 --rm -p 8081:8081 -p 8082:8082 -p 9092:9092 -p 9644:9644 -d docker.redpanda.com/vectorized/redpanda:latest redpanda start --overprovisioned --smp 1  --memory 1G --reserve-memory 0M --node-id 0 --check=false
+
+docker exec -it redpanda-1 rpk topic create twitch_chat --brokers=localhost:9092
+
+docker exec -it redpanda-1 rpk topic produce twitch_chat --brokers=localhost:9092
+
+docker exec -it redpanda-1 rpk topic consume twitch_chat --brokers=localhost:9092
+
+docker stop redpanda-1 && docker rm redpanda-1
