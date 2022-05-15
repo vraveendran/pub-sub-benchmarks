@@ -7,3 +7,8 @@ docker exec -it kafka /bin/sh
 docker-compose -f kafka-docker-compose.yml down
 
 docker ps
+
+
+-------------------------------------------------------------------------------------------
+
+https://blog.clairvoyantsoft.com/benchmarking-kafka-e7b7c289257d
