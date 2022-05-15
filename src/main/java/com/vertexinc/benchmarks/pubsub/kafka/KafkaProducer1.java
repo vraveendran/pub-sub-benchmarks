@@ -1,61 +1,51 @@
 package com.vertexinc.benchmarks.pubsub.kafka;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Optional;
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
-
-import org.apache.kafka.clients.admin.AdminClient;
-import org.apache.kafka.clients.admin.NewTopic;
-import org.apache.kafka.clients.producer.Callback;
+import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.clients.producer.RecordMetadata;
-import org.apache.kafka.common.errors.TopicExistsException;
 
 public class KafkaProducer1 {
-    /**
-     * Creates a new topic in Pulsar
-     * @param topic
-     * @param config
-     */
-    public static void createTopic(final String topic, final Properties config) {
-        final NewTopic newTopic = new NewTopic(topic, Optional.empty(), Optional.empty());
-
-        try (final AdminClient adminClient = AdminClient.create(config)) {
-            adminClient.createTopics(Collections.singletonList(newTopic)).all().get();
-        } catch (final InterruptedException | ExecutionException e) {
-            System.out.println(e.getMessage());
-            if (!(e.getCause() instanceof TopicExistsException)) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
-
-    public static void main(final String[] args) throws IOException {
-        Properties props = KafkaClientConfig.producerConfig();
-        System.out.print(props.toString());
-
-        createTopic("test", props);
-        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(props);
-        
-        for (Long i = 0L; i < 10; i++) {
-            ProducerRecord<String, String> record = new ProducerRecord<String, String>(
-                "test", String.format("key-%d", i), String.format("value-%d", i));
-            producer.send(record, new Callback() {
-                @Override
-                public void onCompletion(RecordMetadata metadata, Exception exception) {
-                    if (exception != null) {
-                        exception.printStackTrace();
-                    } else {
-                        System.out.printf("Sent message to topic: %s, partition: %d, offset: %d%n", 
-                            metadata.topic(), metadata.partition(), metadata.offset());
-                    }
-                }
-            });
-        }
-        producer.flush();
-        producer.close();
-    }
+   
+   public static void main(String[] args) throws Exception{
+      
+      //Assign topicName to string variable
+      String topicName = "kafka-topic";
+      
+      // create instance for properties to access producer configs   
+      Properties props = new Properties();
+      
+      //Assign localhost id
+      props.put("bootstrap.servers", "localhost:9092");
+      
+      //Set acknowledgements for producer requests.      
+      props.put("acks", "all");
+      
+      //If the request fails, the producer can automatically retry,
+      props.put("retries", 0);
+      
+      //Specify buffer size in config
+      props.put("batch.size", 16384);
+      
+      //Reduce the no of requests less than 0   
+      props.put("linger.ms", 1);
+      
+      //The buffer.memory controls the total amount of memory available to the producer for buffering.   
+      props.put("buffer.memory", 33554432);
+      
+      props.put("key.serializer", 
+         "org.apache.kafka.common.serialization.StringSerializer");
+         
+      props.put("value.serializer", 
+         "org.apache.kafka.common.serialization.StringSerializer");
+      
+      Producer<String, String> producer = new KafkaProducer
+         <String, String>(props);
+            
+      for(int i = 0; i < 10; i++)
+         producer.send(new ProducerRecord<String, String>(topicName, 
+            Integer.toString(i), Integer.toString(i)));
+               System.out.println("Message sent successfully");
+               producer.close();
+   }
 }
