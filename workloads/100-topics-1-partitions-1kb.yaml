@@ -1,0 +1,12 @@
+name: 1 producer / 3 consumers on 100 topics
+
+topics: 100
+partitionsPerTopic: 1
+messageSize: 1024
+payloadFile: "payload/payload-1Kb.data"
+subscriptionsPerTopic: 3
+consumerPerSubscription: 1
+producersPerTopic: 1
+producerRate: 150000
+consumerBacklogSizeGB: 0
+testDurationMinutes: 240
