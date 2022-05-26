@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.concurrent.CompletableFuture;
 
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -31,5 +32,5 @@ public class PulsarConsumer {
 
     		client.close();
     	
-    }
+    }    
 }

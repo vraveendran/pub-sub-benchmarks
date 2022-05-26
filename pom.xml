@@ -8,8 +8,12 @@
   <properties>
         <kafka.version>3.1.0</kafka.version>
         <slf4j.version>1.7.36</slf4j.version>
+        <bookkeeper.version>4.7.0</bookkeeper.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        
+        <log4j.version>2.16.0</log4j.version>
+
         
          <!-- in your <properties> block -->
 		<pulsar.version>2.10.0</pulsar.version>
@@ -32,14 +36,70 @@
             <version>${slf4j.version}</version>
         </dependency>
         
-        
+        <dependency>
+			<groupId>org.apache.bookkeeper.stats</groupId>
+			<artifactId>bookkeeper-stats-api</artifactId>
+			<version>${bookkeeper.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.bookkeeper.stats</groupId>
+			<artifactId>prometheus-metrics-provider</artifactId>
+			<version>${bookkeeper.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-base</artifactId>
+			<version>2.9.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+			<version>2.9.3</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.9.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>2.9.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
        
 
 		<!-- in your <dependencies> block -->
 		<dependency>
-		  <groupId>org.apache.pulsar</groupId>
-		  <artifactId>pulsar-client</artifactId>
-		  <version>${pulsar.version}</version>
+			<groupId>org.apache.pulsar</groupId>
+			<artifactId>pulsar-client-all</artifactId>
+			<version>${pulsar.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.hdrhistogram</groupId>
+			<artifactId>HdrHistogram</artifactId>
+			<version>2.1.10</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>24.1.1-jre</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.asynchttpclient</groupId>
+			<artifactId>async-http-client</artifactId>
+			<version>2.10.4</version>
 		</dependency>
 	</dependencies>
   

@@ -4,7 +4,7 @@ import java.util.Properties;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 
-public class PulsarClientConfig {
+public class PulsarClientConfigs {
     private static Properties baseConfig() {
         Properties props = new Properties();
         //props.put("bootstrap.servers", System.getenv("PULSAR_BROKERS"));
